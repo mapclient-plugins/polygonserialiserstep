@@ -156,8 +156,8 @@ class Writer(object):
         else:
             w.SetFileTypeToBinary()
         w.SetDataByteOrderToLittleEndian()
-        w.SetColorModeToUniformCellColor()
-        w.SetColor(255, 0, 0)
+        # w.SetColorModeToUniformCellColor()
+        # w.SetColor(255, 0, 0)
         w.Write()
 
     def writeSTL(self, filename=None, ascenc=True):
