@@ -224,7 +224,7 @@ def exportPolygon(v, f, suffix, filename, options=None):
     if f_ext=='':
         filename = f_prefix+'.'+suffix
     else:
-        suffix = f_ext
+        suffix = f_ext[1:].lower()
 
     print('writing {} vertices and {} faces to {}'.format(len(v), len(f), filename))
     print('suffix: {}'.format(suffix))
