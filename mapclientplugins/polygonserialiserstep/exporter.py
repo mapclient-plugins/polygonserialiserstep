@@ -227,6 +227,7 @@ def exportPolygon(v, f, suffix, filename, options=None):
         suffix = f_ext
 
     print('writing {} vertices and {} faces to {}'.format(len(v), len(f), filename))
+    print('suffix: {}'.format(suffix))
 
     if suffix == 'obj':
         w.writeOBJ(filename)
