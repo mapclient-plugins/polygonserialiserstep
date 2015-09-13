@@ -65,10 +65,14 @@ class PolygonSerialiserStep(WorkflowStepMountPoint):
         may be connected up to a button in a widget for example.
         '''
         # Put your execute step code here before calling the '_doneExecution' method.
-        exporter.exportPolygon(self._vertices, self._faces,
-            self._config['fileFormat'], self._config['fileLoc'],
-            # self._config['formatOptions']
-            )
+        if self._fileLoc is None:
+            exporter.exportPolygon(self._vertices, self._faces,
+                self._config['fileFormat'], self._config['fileLoc'],
+                )
+        else:
+            exporter.exportPolygon(self._vertices, self._faces,
+                self._config['fileFormat'], self._fileLoc,
+                )
         self._doneExecution()
 
     def setPortData(self, index, dataIn):
