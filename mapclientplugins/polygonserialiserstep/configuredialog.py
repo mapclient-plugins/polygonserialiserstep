@@ -90,11 +90,12 @@ class ConfigureDialog(QtGui.QDialog):
         else:
             self._ui.idLineEdit.setStyleSheet(INVALID_STYLE_SHEET)
 
-        fileLocValid = len(self._ui.fileLocLineEdit.text())>0
-        if fileLocValid:
-            self._ui.fileLocLineEdit.setStyleSheet(DEFAULT_STYLE_SHEET)
-        else:
-            self._ui.fileLocLineEdit.setStyleSheet(INVALID_STYLE_SHEET)
+        fileLocValid = True
+        # fileLocValid = len(self._ui.fileLocLineEdit.text())>0
+        # if fileLocValid:
+        #     self._ui.fileLocLineEdit.setStyleSheet(DEFAULT_STYLE_SHEET)
+        # else:
+        #     self._ui.fileLocLineEdit.setStyleSheet(INVALID_STYLE_SHEET)
 
         valid = idValid and fileLocValid
         self._ui.buttonBox.button(QtGui.QDialogButtonBox.Ok).setEnabled(idValid)

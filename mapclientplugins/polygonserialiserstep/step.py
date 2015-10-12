@@ -47,7 +47,7 @@ class PolygonSerialiserStep(WorkflowStepMountPoint):
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#faces'))
         self.addPort(('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#uses',
-                      'http://physiomeproject.org/workflow/1.0/rdf-schema#string'))
+                      'python#string'))
         self._config = {}
         self._config['identifier'] = ''
         self._config['fileFormat'] = 'stl'
@@ -82,7 +82,8 @@ class PolygonSerialiserStep(WorkflowStepMountPoint):
         elif index == 1:
             self._faces = dataIn # faces
         else:
-            self._fileLoc = dataIn # string
+            self._fileLoc = str(dataIn) # filename string
+            self._config['fileLoc'] = str(dataIn)
 
     def configure(self):
         '''
