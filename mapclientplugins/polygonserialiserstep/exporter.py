@@ -223,8 +223,11 @@ def exportPolygon(v, f, suffix, filename, options=None):
     f_prefix, f_ext = path.splitext(filename)
     if f_ext=='':
         filename = f_prefix+'.'+suffix
+    else:
+        suffix = f_ext[1:].lower()
 
     print('writing {} vertices and {} faces to {}'.format(len(v), len(f), filename))
+    print('suffix: {}'.format(suffix))
 
     if suffix == 'obj':
         w.writeOBJ(filename)
