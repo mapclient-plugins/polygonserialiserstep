@@ -21,6 +21,7 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
 from os import path
 import vtk
 
+
 def polygons2Polydata(vertices, faces):
     """
     Uses create a vtkPolyData instance from a set of vertices and
@@ -56,6 +57,7 @@ def polygons2Polydata(vertices, faces):
 
     return P
 
+
 class Writer(object):
     """Class for writing polygons to file formats supported by VTK.
     """
@@ -80,7 +82,7 @@ class Writer(object):
         self._colour = kwargs.get('colour')
         # self._field_data = kwargs.get('field')
         self._write_ascii = kwargs.get('ascii')
-        self._isoldvtk = int(vtk.VTK_VERSION.split('.')[0])<6
+        self._isoldvtk = int(vtk.VTK_VERSION.split('.')[0]) < 6
 
     def setFilename(self, f):
         self.filename = f
@@ -117,13 +119,13 @@ class Writer(object):
         fileExt = fileExt.lower()
         if fileExt == '.obj':
             self.writeOBJ()
-        elif fileExt=='.wrl':
+        elif fileExt == '.wrl':
             self.writeVRML()
-        elif fileExt=='.stl':
+        elif fileExt == '.stl':
             self.writeSTL(ascenc=ascenc)
-        elif fileExt=='.ply':
+        elif fileExt == '.ply':
             self.writePLY(ascenc=ascenc)
-        elif fileExt=='.vtp':
+        elif fileExt == '.vtp':
             self.writeVTP(ascenc=ascenc)
         else:
             raise ValueError('unknown file extension')
@@ -149,7 +151,7 @@ class Writer(object):
         if self._isoldvtk:
             w.SetInput(self._polydata)
         else:
-            w.SetInputDataObject(self._polydata)    
+            w.SetInputDataObject(self._polydata)
         w.SetFileName(self.filename)
         if ascenc:
             w.SetFileTypeToASCII()
@@ -170,7 +172,7 @@ class Writer(object):
         if self._isoldvtk:
             w.SetInput(self._polydata)
         else:
-            w.SetInputDataObject(self._polydata)        
+            w.SetInputDataObject(self._polydata)
         w.SetFileName(self.filename)
         if ascenc:
             w.SetFileTypeToASCII()
@@ -199,7 +201,7 @@ class Writer(object):
         if self._isoldvtk:
             w.SetInput(self._polydata)
         else:
-            w.SetInputDataObject(self._polydata)        
+            w.SetInputDataObject(self._polydata)
         w.SetFileName(self.filename)
         if ascenc:
             w.SetFileTypeToASCII()
@@ -207,22 +209,24 @@ class Writer(object):
             w.SetFileTypeToBinary()
         w.Write()
 
+
 supported_suffixes = ('stl', 'wrl', 'obj', 'ply', 'vtp')
 
+
 def exportPolygon(v, f, suffix, filename, options=None):
-    if len(v.shape)!=2:
+    if len(v.shape) != 2:
         raise ValueError('v array must be of shape [n, 3]')
-    if v.shape[1]!=3:
+    if v.shape[1] != 3:
         raise ValueError('v array must be of shape [n, 3]')
-    if len(f.shape)!=2:
+    if len(f.shape) != 2:
         raise ValueError('f array must be 2 dimensional')
     if suffix not in supported_suffixes:
         raise ValueError('Unsupported suffix {}'.format(suffix))
 
     w = Writer(v=v, f=f)
     f_prefix, f_ext = path.splitext(filename)
-    if f_ext=='':
-        filename = f_prefix+'.'+suffix
+    if f_ext == '':
+        filename = f_prefix + '.' + suffix
     else:
         suffix = f_ext[1:].lower()
 
@@ -231,11 +235,11 @@ def exportPolygon(v, f, suffix, filename, options=None):
 
     if suffix == 'obj':
         w.writeOBJ(filename)
-    elif suffix=='wrl':
+    elif suffix == 'wrl':
         w.writeVRML(filename)
-    elif suffix=='stl':
+    elif suffix == 'stl':
         w.writeSTL(filename)
-    elif suffix=='ply':
+    elif suffix == 'ply':
         w.writePLY(filename)
-    elif suffix=='vtp':
+    elif suffix == 'vtp':
         w.writeVTP(filename)
