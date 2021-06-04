@@ -18,14 +18,12 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
     along with MAP Client.  If not, see <http://www.gnu.org/licenses/>..
 """
 
-import os
-
-from PySide import QtGui
 import json
 
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.polygonserialiserstep.configuredialog import ConfigureDialog
 from mapclientplugins.polygonserialiserstep import exporter
+
 
 class PolygonSerialiserStep(WorkflowStepMountPoint):
     '''
@@ -35,7 +33,7 @@ class PolygonSerialiserStep(WorkflowStepMountPoint):
 
     def __init__(self, location):
         super(PolygonSerialiserStep, self).__init__('Polygon Serialiser', location)
-        self._configured = False # A step cannot be executed until it has been configured.
+        self._configured = False  # A step cannot be executed until it has been configured.
         self._category = 'Sink'
         # Add any other initialisation code here:
         # Ports:
@@ -67,12 +65,12 @@ class PolygonSerialiserStep(WorkflowStepMountPoint):
         # Put your execute step code here before calling the '_doneExecution' method.
         if self._fileLoc is None:
             exporter.exportPolygon(self._vertices, self._faces,
-                self._config['fileFormat'], self._config['fileLoc'],
-                )
+                                   self._config['fileFormat'], self._config['fileLoc'],
+                                   )
         else:
             exporter.exportPolygon(self._vertices, self._faces,
-                self._config['fileFormat'], self._fileLoc,
-                )
+                                   self._config['fileFormat'], self._fileLoc,
+                                   )
         self._doneExecution()
 
     def setPortData(self, index, dataIn):
@@ -82,11 +80,11 @@ class PolygonSerialiserStep(WorkflowStepMountPoint):
         uses port for this step then the index can be ignored.
         '''
         if index == 0:
-            self._vertices = dataIn # vertices
+            self._vertices = dataIn  # vertices
         elif index == 1:
-            self._faces = dataIn # faces
+            self._faces = dataIn  # faces
         else:
-            self._fileLoc = str(dataIn) # filename string
+            self._fileLoc = str(dataIn)  # filename string
             self._config['fileLoc'] = str(dataIn)
 
     def configure(self):
@@ -97,15 +95,15 @@ class PolygonSerialiserStep(WorkflowStepMountPoint):
         then set:
             self._configured = True
         '''
-        dlg = ConfigureDialog()
+        dlg = ConfigureDialog(self._main_window)
         dlg.identifierOccursCount = self._identifierOccursCount
         dlg.setConfig(self._config)
         dlg.validate()
         dlg.setModal(True)
-        
+
         if dlg.exec_():
             self._config = dlg.getConfig()
-        
+
         self._configured = dlg.validate()
         self._configuredObserver()
 
@@ -139,4 +137,3 @@ class PolygonSerialiserStep(WorkflowStepMountPoint):
         d.identifierOccursCount = self._identifierOccursCount
         d.setConfig(self._config)
         self._configured = d.validate()
-

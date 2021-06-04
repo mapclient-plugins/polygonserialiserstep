@@ -24,4 +24,3 @@ __location__ = 'https://github.com/mapclient-plugins/polygonserialiserstep/archi
 
 # import class that derives itself from the step mountpoint.
 from mapclientplugins.polygonserialiserstep import step
-
