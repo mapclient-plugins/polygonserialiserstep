@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>499</width>
-    <height>228</height>
+    <height>140</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,33 +24,23 @@
        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="idLabel">
-        <property name="text">
-         <string>Identifier:  </string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="idLineEdit"/>
-      </item>
-      <item row="1" column="0">
        <widget class="QLabel" name="fileFormatLabel">
         <property name="text">
          <string>File Format:</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="0" column="1">
        <widget class="QComboBox" name="fileFormatCombo"/>
       </item>
-      <item row="2" column="0">
+      <item row="1" column="0">
        <widget class="QLabel" name="fileLocLabel">
         <property name="text">
          <string>Filename:</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="1" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLineEdit" name="fileLocLineEdit"/>
@@ -80,7 +70,6 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>idLineEdit</tabstop>
   <tabstop>fileFormatCombo</tabstop>
   <tabstop>fileLocLineEdit</tabstop>
   <tabstop>fileLocButton</tabstop>
