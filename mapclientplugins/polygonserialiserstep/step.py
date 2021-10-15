@@ -67,9 +67,12 @@ class PolygonSerialiserStep(WorkflowStepMountPoint):
         '''
         # Put your execute step code here before calling the '_doneExecution' method.
         if self._fileLoc is None:
+            file_location = self._config['fileLoc']
+            if not os.path.isabs(file_location):
+                file_location = os.path.join(self._location, file_location)
             exporter.exportPolygon(self._vertices, self._faces,
                                    self._config['fileFormat'],  # self._config['fileLoc'],
-                                   os.path.join(self._location, self._config['fileLoc'])
+                                   os.path.join(self._location, file_location)
                                    )
         else:
             exporter.exportPolygon(self._vertices, self._faces,
