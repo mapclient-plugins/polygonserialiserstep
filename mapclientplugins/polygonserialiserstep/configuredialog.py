@@ -19,7 +19,7 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
 """
 
 import os
-from PySide2 import QtWidgets
+from PySide6 import QtWidgets
 from mapclientplugins.polygonserialiserstep.ui_configuredialog import Ui_Dialog
 from mapclientplugins.polygonserialiserstep import exporter
 
