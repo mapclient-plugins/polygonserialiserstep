@@ -118,19 +118,19 @@ class Writer(object):
         filePrefix, fileExt = path.splitext(self.filename)
         fileExt = fileExt.lower()
         if fileExt == '.obj':
-            self.writeOBJ()
+            self.write_obj()
         elif fileExt == '.wrl':
-            self.writeVRML()
+            self.write_vrml()
         elif fileExt == '.stl':
-            self.writeSTL(ascenc=ascenc)
+            self.write_stl(ascenc=ascenc)
         elif fileExt == '.ply':
-            self.writePLY(ascenc=ascenc)
+            self.write_ply(ascenc=ascenc)
         elif fileExt == '.vtp':
-            self.writeVTP(ascenc=ascenc)
+            self.write_vtp(ascenc=ascenc)
         else:
             raise ValueError('unknown file extension')
 
-    def writeOBJ(self, filename=None):
+    def write_obj(self, filename=None):
         if filename is not None:
             self.filename = filename
         if self._render_window is None:
@@ -141,7 +141,7 @@ class Writer(object):
         w.SetFilePrefix(path.splitext(self.filename)[0])
         w.Write()
 
-    def writePLY(self, filename=None, ascenc=True):
+    def write_ply(self, filename=None, ascenc=True):
         if filename is not None:
             self.filename = filename
         if self._polydata is None:
@@ -162,7 +162,7 @@ class Writer(object):
         # w.SetColor(255, 0, 0)
         w.Write()
 
-    def writeSTL(self, filename=None, ascenc=True):
+    def write_stl(self, filename=None, ascenc=True):
         if filename is not None:
             self.filename = filename
         if self._polydata is None:
@@ -180,7 +180,7 @@ class Writer(object):
             w.SetFileTypeToBinary()
         w.Write()
 
-    def writeVRML(self, filename=None):
+    def write_vrml(self, filename=None):
         if filename is not None:
             self.filename = filename
         if self._render_window is None:
@@ -191,7 +191,7 @@ class Writer(object):
         w.SetFileName(self.filename)
         w.Write()
 
-    def writeVTP(self, filename=None, ascenc=True):
+    def write_vtp(self, filename=None, ascenc=True):
         if filename is not None:
             self.filename = filename
         if self._polydata is None:
@@ -213,7 +213,7 @@ class Writer(object):
 supported_suffixes = ('stl', 'wrl', 'obj', 'ply', 'vtp')
 
 
-def exportPolygon(v, f, suffix, filename, options=None):
+def export_polygon(v, f, suffix, filename):
     if len(v.shape) != 2:
         raise ValueError('v array must be of shape [n, 3]')
     if v.shape[1] != 3:
@@ -234,12 +234,12 @@ def exportPolygon(v, f, suffix, filename, options=None):
     print('suffix: {}'.format(suffix))
 
     if suffix == 'obj':
-        w.writeOBJ(filename)
+        w.write_obj(filename)
     elif suffix == 'wrl':
-        w.writeVRML(filename)
+        w.write_vrml(filename)
     elif suffix == 'stl':
-        w.writeSTL(filename)
+        w.write_stl(filename)
     elif suffix == 'ply':
-        w.writePLY(filename)
+        w.write_ply(filename)
     elif suffix == 'vtp':
-        w.writeVTP(filename)
+        w.write_vtp(filename)
