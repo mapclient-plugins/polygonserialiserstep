@@ -19,7 +19,14 @@ This file is part of MAP Client. (http://launchpad.net/mapclient)
 """
 
 from os import path
-import vtk
+
+from vtkmodules.vtkCommonCore import vtkPoints, VTK_VERSION
+from vtkmodules.vtkCommonDataModel import vtkCellArray, vtkPolygon, vtkPolyData
+from vtkmodules.vtkRenderingCore import vtkPolyDataMapper, vtkActor, vtkRenderer, vtkRenderWindow
+from vtkmodules.vtkIOExport import vtkOBJExporter, vtkVRMLExporter
+from vtkmodules.vtkIOPLY import vtkPLYWriter
+from vtkmodules.vtkIOGeometry import vtkSTLWriter
+from vtkmodules.vtkIOLegacy import vtkPolyDataWriter
 
 
 def polygons2Polydata(vertices, faces):
@@ -37,21 +44,21 @@ def polygons2Polydata(vertices, faces):
     P: vtkPolyData instance
     """
     # define points
-    points = vtk.vtkPoints()
+    points = vtkPoints()
     for x, y, z in vertices:
         points.InsertNextPoint(x, y, z)
 
     # create polygons
-    polygons = vtk.vtkCellArray()
+    polygons = vtkCellArray()
     for f in faces:
-        polygon = vtk.vtkPolygon()
+        polygon = vtkPolygon()
         polygon.GetPointIds().SetNumberOfIds(len(f))
         for fi, gfi in enumerate(f):
             polygon.GetPointIds().SetId(fi, gfi)
         polygons.InsertNextCell(polygon)
 
     # create polydata
-    P = vtk.vtkPolyData()
+    P = vtkPolyData()
     P.SetPoints(points)
     P.SetPolys(polygons)
 
@@ -82,7 +89,7 @@ class Writer(object):
         self._colour = kwargs.get('colour')
         # self._field_data = kwargs.get('field')
         self._write_ascii = kwargs.get('ascii')
-        self._isoldvtk = int(vtk.VTK_VERSION.split('.')[0]) < 6
+        self._isoldvtk = int(VTK_VERSION.split('.')[0]) < 6
 
     def setFilename(self, f):
         self.filename = f
@@ -98,16 +105,16 @@ class Writer(object):
     def _make_render_window(self):
         if self._polydata is None:
             self._make_polydata()
-        ply_mapper = vtk.vtkPolyDataMapper()
+        ply_mapper = vtkPolyDataMapper()
         if self._isoldvtk:
             ply_mapper.SetInput(self._polydata)
         else:
             ply_mapper.SetInputDataObject(self._polydata)
-        ply_actor = vtk.vtkActor()
+        ply_actor = vtkActor()
         ply_actor.SetMapper(ply_mapper)
 
-        ren1 = vtk.vtkRenderer()
-        self._render_window = vtk.vtkRenderWindow()
+        ren1 = vtkRenderer()
+        self._render_window = vtkRenderWindow()
         self._render_window.AddRenderer(ren1)
         ren1.AddActor(ply_actor)
 
@@ -136,7 +143,7 @@ class Writer(object):
         if self._render_window is None:
             self._make_render_window()
 
-        w = vtk.vtkOBJExporter()
+        w = vtkOBJExporter()
         w.SetRenderWindow(self._render_window)
         w.SetFilePrefix(path.splitext(self.filename)[0])
         w.Write()
@@ -147,7 +154,7 @@ class Writer(object):
         if self._polydata is None:
             self._make_polydata()
 
-        w = vtk.vtkPLYWriter()
+        w = vtkPLYWriter()
         if self._isoldvtk:
             w.SetInput(self._polydata)
         else:
@@ -168,7 +175,7 @@ class Writer(object):
         if self._polydata is None:
             self._make_polydata()
 
-        w = vtk.vtkSTLWriter()
+        w = vtkSTLWriter()
         if self._isoldvtk:
             w.SetInput(self._polydata)
         else:
@@ -186,7 +193,7 @@ class Writer(object):
         if self._render_window is None:
             self._make_render_window()
 
-        w = vtk.vtkVRMLExporter()
+        w = vtkVRMLExporter()
         w.SetRenderWindow(self._render_window)
         w.SetFileName(self.filename)
         w.Write()
@@ -197,7 +204,7 @@ class Writer(object):
         if self._polydata is None:
             self._make_polydata()
 
-        w = vtk.vtkPolyDataWriter()
+        w = vtkPolyDataWriter()
         if self._isoldvtk:
             w.SetInput(self._polydata)
         else:
